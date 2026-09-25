@@ -29,10 +29,7 @@ jobs:
         run: npm run dist:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
-          # Apple 공증이 필요하면 repo Secrets 설정 후 주석 해제
-          # APPLE_ID: ${{ secrets.APPLE_ID }}
-          # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          CSC_IDENTITY: 'null'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -40,6 +37,6 @@ jobs:
           name: typing-pet-mac-0.2.0
           path: |
             mac/배포/**
-            mac/release/*-mac.dmg
-            mac/release/*-mac.zip
+            mac/release/*.dmg
+            mac/release/*.zip
           if-no-files-found: error

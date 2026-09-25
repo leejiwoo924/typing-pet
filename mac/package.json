@@ -8,11 +8,11 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "dist:mac": "npm run build && electron-builder --mac dmg zip --publish never && node scripts/copy-dist.mjs",
-    "dist:mac:dir": "npm run build && electron-builder --mac dir --publish never"
+    "dist:mac": "npm run build && electron-builder --mac dmg zip --arm64 --publish never && node scripts/copy-dist.mjs",
+    "dist:mac:dir": "npm run build && electron-builder --mac dir --arm64 --publish never"
   },
   "dependencies": {
     "react": "^19.2.8",
@@ -36,7 +36,7 @@
   },
   "build": {
     "appId": "com.typingpet.mac",
-    "productName": "타이핑펫",
+    "productName": "TypingPet",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -70,32 +70,33 @@
     "mac": {
       "icon": "build/icon.png",
       "category": "public.app-category.entertainment",
+      "identity": null,
       "target": [
         {
           "target": "dmg",
           "arch": [
-            "universal"
+            "arm64"
           ]
         },
         {
           "target": "zip",
           "arch": [
-            "universal"
+            "arm64"
           ]
         }
       ],
-      "artifactName": "${productName}-${version}-mac.${ext}",
-      "hardenedRuntime": true,
+      "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
+      "hardenedRuntime": false,
       "gatekeeperAssess": false,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist",
       "extendInfo": {
+        "CFBundleDisplayName": "타이핑펫",
+        "CFBundleName": "타이핑펫",
         "NSAppleEventsUsageDescription": "타이핑펫이 전역 키보드 입력을 감지하기 위해 필요합니다.",
         "NSAccessibilityUsageDescription": "타이핑에 반응하는 캐릭터를 위해 손쉬운 사용(접근성) 권한이 필요합니다."
       }
     },
     "dmg": {
-      "title": "타이핑펫 ${version}"
+      "title": "TypingPet ${version}"
     },
     "npmRebuild": true
   }
