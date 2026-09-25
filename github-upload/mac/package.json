@@ -1,0 +1,102 @@
+{
+  "name": "typing-pet-mac",
+  "private": true,
+  "version": "0.2.0",
+  "description": "macOS global keyboard reactive overlay character",
+  "author": "규장각",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "dist:mac": "npm run build && electron-builder --mac dmg zip --publish never && node scripts/copy-dist.mjs",
+    "dist:mac:dir": "npm run build && electron-builder --mac dir --publish never"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "uiohook-napi": "^1.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.0.12",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vite-plugin-electron": "^1.1.2"
+  },
+  "allowScripts": {
+    "uiohook-napi@1.5.5": true
+  },
+  "build": {
+    "appId": "com.typingpet.mac",
+    "productName": "타이핑펫",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node",
+      "**/node_modules/uiohook-napi/**"
+    ],
+    "extraResources": [
+      {
+        "from": "src/assets/pet",
+        "to": "pet-defaults",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "build",
+        "to": "app-icon",
+        "filter": [
+          "icon.png",
+          "icon.icns"
+        ]
+      }
+    ],
+    "mac": {
+      "icon": "build/icon.png",
+      "category": "public.app-category.entertainment",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-mac.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSAppleEventsUsageDescription": "타이핑펫이 전역 키보드 입력을 감지하기 위해 필요합니다.",
+        "NSAccessibilityUsageDescription": "타이핑에 반응하는 캐릭터를 위해 손쉬운 사용(접근성) 권한이 필요합니다."
+      }
+    },
+    "dmg": {
+      "title": "타이핑펫 ${version}"
+    },
+    "npmRebuild": true
+  }
+}
