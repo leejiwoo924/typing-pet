@@ -42,15 +42,25 @@ if (fs.existsSync(releaseDir)) {
 const guide = `TypingPet (타이핑펫) Mac ${version}
 ========================
 
-★ Apple 계정 없이 쓰는 방법 (권장)
-1. 「${productName}-${version}-Mac-열기.zip」 만 받으세요.
-2. 압축을 풉니다.
-3. 「★먼저-이것만-실행.command」 를 실행합니다.
-   (막히면 우클릭 → 열기 → 열기)
-4. Applications 에 설치되고 자동으로 실행됩니다.
+■ “위험한 다운로드” 경고
+Chrome/Safari가 미서명 Mac 앱을 위험하다고 표시할 수 있습니다.
+파일 손상이 아닙니다. 다운로드에서 “유지/Keep” 을 선택하세요.
 
-※ TypingPet.app / .dmg 안의 앱을 직접 더블클릭하지 마세요.
-   “damaged and can’t be opened” 가 뜹니다. (파일 손상이 아닙니다.)
+★ Apple 계정 없이 실행 (권장)
+1. 「${productName}-${version}-Mac-열기.zip」 받기 → 유지
+2. 압축 해제
+3. 터미널에서 (폴더를 Downloads에 푼 경우):
+
+   cd ~/Downloads/${productName}-Mac-열기
+   xattr -cr .
+   cp -R TypingPet.app /Applications/
+   xattr -cr /Applications/TypingPet.app
+   open /Applications/TypingPet.app
+
+   또는 「★먼저-이것만-실행.command」 우클릭 → 열기
+
+※ TypingPet.app / .dmg 앱을 직접 더블클릭하지 마세요.
+   “damaged and can’t be opened” 가 뜹니다.
 
 ■ 손쉬운 사용 권한
 시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용
@@ -59,6 +69,7 @@ const guide = `TypingPet (타이핑펫) Mac ${version}
 ■ 참고
 - Apple Silicon (M1/M2/M3...) Mac용 arm64 빌드입니다.
 - Windows용 .exe 와는 별개입니다.
+- 경고 없이 더블클릭만으로 열려면 Apple Developer 서명+공증이 필요합니다.
 `
 
 fs.writeFileSync(path.join(outDir, '사용설명서.txt'), guide, 'utf8')

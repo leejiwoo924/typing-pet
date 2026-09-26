@@ -3,16 +3,22 @@
 ## Apple 계정 없이 실행 (권장)
 
 `.app` / `.dmg` 를 직접 열면 *“damaged and can’t be opened”* 가 뜹니다.  
-**파일 손상이 아니라** macOS가 미서명 앱을 막는 것입니다.
+Chrome이 *“위험한 다운로드”* 라고 해도 **미서명 앱 경고**인 경우가 많습니다. → **유지/Keep**
 
 ### 받는 사람
-1. Actions Artifacts에서 **`TypingPet-*-Mac-열기.zip`** 만 받기
+1. **`TypingPet-*-Mac-열기.zip`** 다운로드 → 위험 경고 시 **유지**
 2. 압축 해제
-3. **`★먼저-이것만-실행.command`** 실행  
-   - 막히면: **우클릭 → 열기 → 열기**
-4. Applications에 설치되며 자동 실행
+3. **터미널** (확실):
+   ```bash
+   cd ~/Downloads/TypingPet-Mac-열기
+   xattr -cr .
+   cp -R TypingPet.app /Applications/
+   xattr -cr /Applications/TypingPet.app
+   open /Applications/TypingPet.app
+   ```
+   또는 **`★먼저-이것만-실행.command`** → 우클릭 → 열기
 
-이 스크립트가 quarantine을 제거하고 앱을 엽니다. **Apple Developer 계정 불필요.**
+**Apple Developer 계정 불필요.** 경고를 완전히 없애려면 서명+공증만 가능합니다.
 
 ---
 

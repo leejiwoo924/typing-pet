@@ -93,15 +93,37 @@ try {
 const readme = `TypingPet Mac ${version} — Apple 계정 없이 실행
 ========================================
 
+■ Chrome / Safari 가 “위험한 다운로드” 라고 할 때
+정상입니다. Apple 서명이 없는 앱이라 브라우저가 경고합니다.
+악성코드 확정이 아닙니다.
+- Chrome: 다운로드 옆 ▲ 또는 ⋮ → “유지” / Keep
+- Safari: 허용 / 다운로드 유지
+
 ※ TypingPet.app 을 직접 더블클릭하지 마세요.
    (“damaged and can’t be opened” 가 뜹니다.)
 
-■ 설치 / 실행 (이 방법만 사용)
+■ 실행 방법 A — 터미널 (가장 확실)
 1. 이 ZIP 을 압축 해제합니다.
-2. 「★먼저-이것만-실행.command」 를 실행합니다.
-   - 막히면: 우클릭 → 열기 → 열기
-   - 또는 터미널에 파일을 끌어다 놓고 Enter
-3. Applications 에 설치되고 자동 실행됩니다.
+2. 터미널(Terminal)을 엽니다.
+3. 아래를 복사해 붙여넣고 Enter
+   (폴더를 Downloads 에 푼 경우 예시)
+
+cd ~/Downloads/${stageName}
+xattr -cr .
+cp -R TypingPet.app /Applications/
+xattr -cr /Applications/TypingPet.app
+open /Applications/TypingPet.app
+
+폴더 위치가 다르면, 터미널에
+  cd
+을 친 뒤 폴더를 드래그해 넣고 Enter 한 다음,
+  xattr -cr .
+  cp -R TypingPet.app /Applications/
+  xattr -cr /Applications/TypingPet.app
+  open /Applications/TypingPet.app
+
+■ 실행 방법 B — command 파일
+「★먼저-이것만-실행.command」 우클릭 → 열기 → 열기
 
 ■ 손쉬운 사용
 시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용
