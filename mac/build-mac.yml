@@ -1,5 +1,4 @@
-# Mac 배포 파일 자동 빌드 (Windows만 있어도 가능)
-# 저장소 루트 `.github/workflows/build-mac.yml` 과 동기화 유지
+# 저장소 루트 `.github/workflows/build-mac.yml` 과 동기화
 
 name: Build Mac
 
@@ -37,7 +36,15 @@ jobs:
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
         run: |
           if [ -z "${CSC_LINK}" ]; then
-            echo "::notice::UNSIGNED — share TypingPet-*-Mac-열기.zip and run ★먼저-이것만-실행.command"
+            echo "::notice::UNSIGNED — share TypingPet-*-Mac-열기.zip"
+            unset CSC_LINK
+            unset CSC_KEY_PASSWORD
+            unset APPLE_ID
+            unset APPLE_APP_SPECIFIC_PASSWORD
+            unset APPLE_TEAM_ID
+            unset APPLE_API_KEY
+            unset APPLE_API_KEY_ID
+            unset APPLE_API_ISSUER
             export CSC_IDENTITY_AUTO_DISCOVERY=false
           fi
           npm run dist:mac

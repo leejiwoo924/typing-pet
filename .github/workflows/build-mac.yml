@@ -1,9 +1,9 @@
 # Mac 배포 파일 자동 빌드 (Windows만 있어도 가능)
-# GitHub에 올린 뒤 Actions → Build Mac → Run workflow
+# GitHub → Actions → Build Mac → Run workflow
 #
-# 서명/공증(권장): Repo Settings → Secrets 에 아래를 넣으면 double-click 실행 가능
-#   CSC_LINK, CSC_KEY_PASSWORD, APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID
-# Secrets 없으면 unsigned 빌드 (받는 Mac에서 quarantine 제거 필요)
+# 서명/공증(선택): Secrets CSC_LINK, CSC_KEY_PASSWORD, APPLE_ID,
+# APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID
+# 없으면 unsigned + Mac-열기.zip (★먼저-이것만-실행.command)
 
 name: Build Mac
 
@@ -40,8 +40,18 @@ jobs:
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
         run: |
+          # GitHub은 없는 Secret을 빈 문자열로 넣음 → electron-builder가
+          # CSC_LINK="" 를 인증서 경로로 읽어 "not a file" 로 실패함.
           if [ -z "${CSC_LINK}" ]; then
-            echo "::notice::UNSIGNED build — users must open ★먼저-이것만-실행.command inside TypingPet-*-Mac-열기.zip (not the .app)."
+            echo "::notice::UNSIGNED — share TypingPet-*-Mac-열기.zip and run ★먼저-이것만-실행.command"
+            unset CSC_LINK
+            unset CSC_KEY_PASSWORD
+            unset APPLE_ID
+            unset APPLE_APP_SPECIFIC_PASSWORD
+            unset APPLE_TEAM_ID
+            unset APPLE_API_KEY
+            unset APPLE_API_KEY_ID
+            unset APPLE_API_ISSUER
             export CSC_IDENTITY_AUTO_DISCOVERY=false
           else
             echo "CSC_LINK present — Developer ID signing enabled"
