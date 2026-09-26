@@ -11,7 +11,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "dist:mac": "npm run build && electron-builder --mac dmg zip --arm64 --publish never && node scripts/copy-dist.mjs",
+    "dist:mac": "npm run build && electron-builder --mac dmg zip --arm64 --publish never && node scripts/copy-dist.mjs && node scripts/pack-openable.mjs",
     "dist:mac:dir": "npm run build && electron-builder --mac dir --arm64 --publish never"
   },
   "dependencies": {

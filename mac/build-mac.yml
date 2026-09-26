@@ -37,7 +37,7 @@ jobs:
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
         run: |
           if [ -z "${CSC_LINK}" ]; then
-            echo "::warning::CSC_LINK secret missing — building UNSIGNED."
+            echo "::notice::UNSIGNED — share TypingPet-*-Mac-열기.zip and run ★먼저-이것만-실행.command"
             export CSC_IDENTITY_AUTO_DISCOVERY=false
           fi
           npm run dist:mac
@@ -47,6 +47,8 @@ jobs:
         with:
           name: typing-pet-mac-0.2.0
           path: |
+            mac/배포/TypingPet-*-Mac-열기.zip
+            mac/배포/사용설명서.txt
             mac/배포/**
             mac/release/*.dmg
             mac/release/*.zip
