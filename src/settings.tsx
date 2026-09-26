@@ -113,8 +113,9 @@ function SettingsApp() {
           대기/타이핑에 쓰는 기본 이미지입니다.
         </p>
         <p className="settings__size-hint">
-          권장 크기: <strong>800×500</strong> 또는 <strong>512×512</strong> · PNG(투명) 권장 ·
-          화면에는 200×200 안에 비율 유지로 표시됩니다.
+          권장 크기: <strong>800×500</strong> 또는 <strong>512×512</strong> ·
+          PNG(투명) / GIF(애니메이션) 가능 · 화면에는 200×200 안에 비율 유지로
+          표시됩니다.
         </p>
 
         <div className="settings__image-grid">
@@ -151,7 +152,7 @@ function SettingsApp() {
         </p>
         <p className="settings__size-hint">
           권장 크기: 기본 캐릭터와 동일 (<strong>800×500</strong> 또는{' '}
-          <strong>512×512</strong>)
+          <strong>512×512</strong>) · PNG / GIF 가능
         </p>
 
         <div className="settings__actions">

@@ -145,7 +145,7 @@ async function pickAndAddShortcutPose() {
     filters: [
       {
         name: 'Images',
-        extensions: ['png', 'jpg', 'jpeg', 'webp'],
+        extensions: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
       },
     ],
   }
@@ -319,7 +319,7 @@ async function pickAndReplacePetImage(slot: PetSlot) {
     filters: [
       {
         name: 'Images',
-        extensions: ['png', 'jpg', 'jpeg', 'webp'],
+        extensions: ['png', 'jpg', 'jpeg', 'webp', 'gif'],
       },
     ],
   }

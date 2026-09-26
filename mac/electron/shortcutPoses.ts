@@ -31,6 +31,13 @@ function sniffImageMime(buffer: Buffer) {
     return 'image/png'
   }
   if (
+    buffer.length >= 6 &&
+    buffer.toString('ascii', 0, 3) === 'GIF' &&
+    (buffer.toString('ascii', 3, 6) === '87a' || buffer.toString('ascii', 3, 6) === '89a')
+  ) {
+    return 'image/gif'
+  }
+  if (
     buffer.length >= 12 &&
     buffer.toString('ascii', 0, 4) === 'RIFF' &&
     buffer.toString('ascii', 8, 12) === 'WEBP'

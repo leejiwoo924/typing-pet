@@ -67,10 +67,10 @@
         ]
       }
     ],
+    "afterSign": "scripts/notarize.cjs",
     "mac": {
       "icon": "build/icon.png",
       "category": "public.app-category.entertainment",
-      "identity": null,
       "target": [
         {
           "target": "dmg",
@@ -86,8 +86,10 @@
         }
       ],
       "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
-      "hardenedRuntime": false,
+      "hardenedRuntime": true,
       "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
       "extendInfo": {
         "CFBundleDisplayName": "타이핑펫",
         "CFBundleName": "타이핑펫",
@@ -96,7 +98,8 @@
       }
     },
     "dmg": {
-      "title": "TypingPet ${version}"
+      "title": "TypingPet ${version}",
+      "writeUpdateInfo": false
     },
     "npmRebuild": true
   }

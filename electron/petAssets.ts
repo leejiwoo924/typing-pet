@@ -35,14 +35,15 @@ function ensureGuide(petDir: string) {
 
   const guide = `타이핑펫 캐릭터 이미지 폴더
 
-이 폴더의 PNG 파일을 원하는 그림으로 바꿔 넣으세요.
+이 폴더의 이미지 파일을 원하는 그림으로 바꿔 넣으세요.
+(PNG / JPG / WEBP / GIF 가능, GIF는 애니메이션 재생)
 
 - basic.png  : 타이핑하지 않을 때
 - right.png  : 타이핑할 때 자세 1
 - left.png   : 타이핑할 때 자세 2
 
-파일을 저장하면 잠시 후 자동으로 화면에 반영됩니다.
-파일 이름은 꼭 위와 같아야 합니다.
+설정에서 이미지를 바꾸면 자동 저장됩니다.
+파일 이름은 위와 같게 두세요 (확장자는 png여도 GIF 내용이면 애니메이션됩니다).
 `
 
   fs.writeFileSync(guidePath, guide, 'utf8')
@@ -86,6 +87,13 @@ function sniffImageMime(buffer: Buffer) {
     buffer[3] === 0x47
   ) {
     return 'image/png'
+  }
+  if (
+    buffer.length >= 6 &&
+    buffer.toString('ascii', 0, 3) === 'GIF' &&
+    (buffer.toString('ascii', 3, 6) === '87a' || buffer.toString('ascii', 3, 6) === '89a')
+  ) {
+    return 'image/gif'
   }
   if (
     buffer.length >= 12 &&
