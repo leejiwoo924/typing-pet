@@ -1,12 +1,12 @@
 #!/bin/bash
 # Apple 개발자 계정 없이 GitHub에서 받은 TypingPet 실행용
-# .app 을 직접 열지 말고, 이 파일을 실행하세요.
+# .app 을 직접 열지 말고, 이 파일을 우클릭 → 열기 하세요.
 
-set -e
+# CRLF 로 받아도 죽지 않게
 DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$DIR"
+cd "$DIR" || exit 1
 
-# 폴더 전체 quarantine 제거 (damaged 오류 원인)
+echo "폴더: $DIR"
 xattr -cr "$DIR" 2>/dev/null || true
 
 APP=""
@@ -17,16 +17,31 @@ elif [ -d "$DIR/타이핑펫.app" ]; then
 fi
 
 if [ -z "$APP" ]; then
-  osascript -e 'display dialog "같은 폴더에 TypingPet.app 이 없습니다.\nZIP을 먼저 풀어 주세요." buttons {"확인"} default button 1 with icon stop'
+  echo "같은 폴더에 TypingPet.app 이 없습니다. ZIP을 한 번 더 풀어 주세요."
+  osascript -e 'display dialog "같은 폴더에 TypingPet.app 이 없습니다.\nZIP을 한 번 더 풀어 주세요." buttons {"확인"} default button 1 with icon stop' || true
+  read -r -p "엔터를 누르면 닫힙니다..."
   exit 1
 fi
 
-# Applications 에 설치 (기존 있으면 교체)
-DEST="/Applications/TypingPet.app"
-rm -rf "$DEST"
-cp -R "$APP" "$DEST"
-xattr -cr "$DEST" 2>/dev/null || true
+xattr -cr "$APP" 2>/dev/null || true
 
-open "$DEST"
+# 관리자 암호 없이 설치 (사용자 Applications)
+DEST="$HOME/Applications/TypingPet.app"
+mkdir -p "$HOME/Applications" || true
+rm -rf "$DEST" 2>/dev/null || true
+if cp -R "$APP" "$DEST"; then
+  xattr -cr "$DEST" 2>/dev/null || true
+  echo "설치 위치: $DEST"
+  open "$DEST"
+else
+  echo "홈 폴더 설치 실패. 이 폴더에서 바로 실행합니다."
+  open "$APP"
+fi
 
-osascript -e 'display dialog "TypingPet 을 설치하고 실행했습니다.\n\n키보드 반응이 없으면:\n시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용\n에서 TypingPet 을 허용한 뒤 앱을 다시 실행하세요." buttons {"확인"} default button 1 with title "TypingPet"'
+echo ""
+echo "실행했습니다."
+echo "- 큰 창은 안 뜹니다. 화면 오른쪽 아래 작은 캐릭터를 보세요."
+echo "- 위쪽 메뉴 막대에도 아이콘이 있습니다."
+echo "- 키보드 반응이 없으면: 시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용 → TypingPet 허용"
+echo ""
+read -r -p "엔터를 누르면 이 창이 닫힙니다..."
